@@ -1,0 +1,144 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{geometry}
+\usepackage{tikz}
+\usetikzlibrary{mindmap,shapes.geometric,arrows.meta,shadows,shapes.symbols,shapes.multipart}
+\definecolor{webblue}{rgb}{.6,.6,1}
+\definecolor{webcyan}{rgb}{.6,1,1}
+\definecolor{webgreen}{rgb}{.61, 1, .61}
+\geometry{a4paper, centering}
+\title{问答APP项目说明书}
+\author{周友红}
+\date{\today}
+\begin{document}
+\maketitle
+\tableofcontents
+\section{各个模块说明}
+  \centering{
+    \begin{tikzpicture}[small mindmap,
+    text=white,
+    every node/.style={concept, circular drop shadow,execute at begin node=\hskip0pt},
+    root concept/.append style={concept color=black, fill=white, line width=1ex, text=black, font=\huge},
+    registermodule/.style={concept color=red},
+    loginmodule/.style={concept color=blue!100!black!70,fade/.style={concept color=blue!100!black!50}},
+    questionmodule/.style={concept color=orange,fade/.style={concept color=orange!50}},
+    answermodule/.style={concept color=green!80!black,fade/.style={concept color=green!80!black!60}},
+    signinmodule/.style={concept color=gray},
+    unwrapmodule/.style={concept color=green!50!black},
+    grow cyclic, 
+    level 1/.append style={level distance=3.5cm, sibling angle=60,font=\large\itshape},
+    level 2/.append style={level distance=2.5cm, sibling angle=60,font=\small},
+    ]
+      \node[root concept]{问答 APP}
+        child[registermodule]{node{注册模块}}
+        child[loginmodule]{node{登录模块}
+          child{node{账号登录}}
+          child[fade]{node{短信验证登录}}
+        }
+        child[questionmodule]{node{提问模块}
+          child{node{提问}}
+          child[fade]{node{申诉}}
+          child{node{采纳}}
+        }
+        child[answermodule]{node{回答模块}
+          child[fade]{node{回答}}
+          child{node{申诉}}
+        }
+        child[signinmodule]{node{签到模块}}
+        child[unwrapmodule]{node{解绑模块}};
+    \end{tikzpicture}
+  }
+
+\section{问答流程图}
+  \centering{
+    \begin{tikzpicture}[
+      node distance=2cm,align=center,
+      every node/.style={fill=white, font=\small},
+      %linear color group
+      webgreenlinear/.style={top color=white, bottom color=webgreen},
+      webcyanlinear/.style={top color=white,bottom color=webcyan},
+      webbluelinear/.style={top color=white,bottom color=webblue},
+      %define line
+      toterminalline/.style={line width=1pt,->,webblue,rounded corners=2mm},
+      toprocessline/.style={line width=1pt,->,webgreen,rounded corners=2mm},
+      todecisionline/.style={line width=1pt,->,webcyan,rounded corners=2mm},
+      toallline/.style={line width=0.8pt, -{Latex}, color=gray!90, rounded corners=2mm},
+      %base color
+      base/.style={font=\itshape\large, drop shadow, text centered, thick,draw=gray!80},
+      %terminal style
+      startstop/.style = {base,webbluelinear,rectangle, rounded corners=2mm, minimum width=2cm, minimum height=0.8cm},
+      %sub flow
+      subflow/.style = {base, rectangle split, rectangle split horizontal, rectangle split parts=3, minimum width=2cm, minimum height=0.8cm, webgreenlinear},
+      %prcess style
+      process/.style = {base,webgreenlinear,rectangle, minimum width=2cm, minimum height=0.8cm},
+      decision/.style = {base, webcyanlinear,diamond, minimum size=6mm, aspect=2.5,inner sep=2pt}
+    ]
+      \node (start)                    [startstop]                                                                   {开始};
+      \node (intoZhidaoIndexPage)      [process, below of=start]                                                     {进入知道首页};
+      \node (intoIndexSuccess)         [decision, below of=intoZhidaoIndexPage]                                      {成功};
+      \node (isLogin)                  [decision, below of=intoIndexSuccess]                                         {登录};  
+      \node (getLocalAccountInfo)      [process, below of=isLogin]                                                   {获取本地账号信息};
+      \node (isHasPhone)               [decision, below of=getLocalAccountInfo]                                      {手机};
+      \node (getPhone)                 [process, right of=isHasPhone, xshift=2cm, behind path]                       {获取并存储};
+      \node (getPhoneSuccess)          [decision, below of=getPhone]                                                 {成功};
+      \node (isHasUserAndPassword)     [decision, below of=isHasPhone]                                               {用户名密码};
+      \node (getRemoteAccountInfo)     [process, left of=isLogin, xshift=-4cm]                                       {获取远程账号信息};
+      \node (getRemoteSuccess)         [decision, below of=getRemoteAccountInfo, yshift=0.5cm]                       {成功};
+      \node (assignAndStoreAccountInfo)[process, below right of=getRemoteSuccess, yshift=-0.2cm, xshift=0.5cm]       {赋值并保存\\账号信息};
+      \node (isRegisteredAndAssign)    [process, below of=assignAndStoreAccountInfo]                                 {判断并赋值\\是否已经注册};
+      \node (registModule)             [subflow, below left of=getRemoteSuccess, yshift=-0.2cm, xshift=-0.5cm]       {\nodepart{two}注册账号模块\nodepart{three}};
+      \node (afterRegistedProccess)    [process, below of=registModule]                                              {注册账号\\一些处理};
+      \node (isRegisted)               [decision, below of=getRemoteSuccess, yshift=-3.5cm]                          {已注册};
+      \node (messageVerifyLogin)       [subflow, below of=isRegisted]                                                {\nodepart{two}短信验证登录\nodepart{three}};
+      \node (accountLogin)             [subflow, below of=isHasUserAndPassword, yshift=-1cm]                         {\nodepart{two}账号登录\nodepart{three}};
+      \node (loginSuccess)             [decision, below left of=accountLogin, yshift=-0.2, xshift=-1.5cm]            {登录情况};
+      \node (zhidaoGetInfoAndStore)    [process, below of=loginSuccess, yshift=-0.5cm]                               {已注册的获取用户名并\\本地与远程更新账号信息};
+      \node (intoZhidaoIndexPage2)     [process, right of=zhidaoGetInfoAndStore, xshift=3cm]                         {进入知道首页};
+      \node (intoIndexSuccess2)        [decision, below of=intoZhidaoIndexPage2]                                     {成功};
+      \node (wendaModule)              [subflow, below of=zhidaoGetInfoAndStore]                                     {\nodepart{two}问答模块\nodepart{three}};
+      \node (stop)                     [startstop, below of=wendaModule]                                             {结束};
+      
+      
+      
+      \draw[toallline] (start) -- (intoZhidaoIndexPage);
+      \draw[toallline] (intoZhidaoIndexPage) --(intoIndexSuccess);
+      \draw[toallline] (intoIndexSuccess) --node{是}(isLogin);
+      \draw[toallline] (intoIndexSuccess) -| ++(6,-18.9) -- node{否}(stop);
+      \draw[toallline] (isLogin) --node{否}(getLocalAccountInfo);
+      \draw[toallline] (isLogin.north west) -- ++(-2, 1) -| ++(-7, -16.1) --node{是}(wendaModule);
+      \draw[toallline] (getLocalAccountInfo) --(isHasPhone);
+      \draw[toallline] (isHasPhone) --node{是}(isHasUserAndPassword);
+      \draw[toallline] (isHasPhone) --node{否}(getPhone);
+      \draw[toallline] (getPhone) --(getPhoneSuccess);
+      \draw[toallline] (getPhoneSuccess) --node{是}(isHasUserAndPassword);
+      \draw[toallline] (isHasUserAndPassword) --node{都有}(accountLogin);
+      \draw[toallline] (accountLogin) --(loginSuccess);
+      \draw[toallline] (messageVerifyLogin) --(loginSuccess);
+
+      %获取远程账号信息
+      \draw[toallline] (isHasUserAndPassword.west) -| node[yshift=3cm]{至少\\一个\\没有}++(-0.5, 6) --(getRemoteAccountInfo.east);
+      \draw[toallline] (getRemoteAccountInfo) -- (getRemoteSuccess);
+      \draw[toallline] (getRemoteSuccess) -| node{是}(assignAndStoreAccountInfo);
+      \draw[toallline] (getRemoteSuccess) -| node{否}(registModule);
+      \draw[toallline] (registModule) --(afterRegistedProccess);
+      \draw[toallline] (assignAndStoreAccountInfo) --(isRegisteredAndAssign);
+      \draw[toallline] (afterRegistedProccess) |-(isRegisted);
+      \draw[toallline] (isRegisteredAndAssign) |-(isRegisted);
+      \draw[toallline] (isRegisted) --node{是}(messageVerifyLogin);
+      \draw[toallline] (isRegisted) --node{否}(accountLogin);
+
+      %登录成功
+      \draw[toallline] (loginSuccess) --node{成功}(zhidaoGetInfoAndStore);
+      \draw[toallline] (zhidaoGetInfoAndStore) --(wendaModule);
+
+      %登录成功，但进入知道首页没有成功
+      \draw[toallline] (loginSuccess) -|node{成功但进入知道\\首页没有成功}(intoZhidaoIndexPage2);
+      \draw[toallline] (intoZhidaoIndexPage2) --(intoIndexSuccess2);
+      \draw[toallline] (intoIndexSuccess2) --node{是}(wendaModule);
+      \draw[toallline] (intoIndexSuccess2.south) --node{否}(stop.east);
+      \draw[toallline] (wendaModule) --(stop);
+
+      %登录失败
+      \draw[toallline] (loginSuccess.west) -| ++(-4, -6.5) --node{失败}(stop);
+    \end{tikzpicture}
+  }
+\end{document}
