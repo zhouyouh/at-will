@@ -39,8 +39,7 @@
       <font size="4" color="#ff3333">git bash</font>
     </p>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 </node>
 </node>
 <node CREATED="1506995537965" ID="ID_1243397733" MODIFIED="1506995544765" TEXT="&#x5173;&#x8054;&#xff1a;git remote add origin git@github.com:zhouyouh/atwill.git"/>
@@ -50,5 +49,10 @@
 <node CREATED="1506997014131" ID="ID_1930383162" MODIFIED="1506997079148" TEXT="git push origin &#x8fdc;&#x7a0b;&#x5206;&#x652f;&#x540d;&#xff1a;&#x5c06;&#x672c;&#x5730;&#x7684;&#x5e93;&#x5185;&#x5bb9;&#x63a8;&#x9001;&#x5230;&#x8fdc;&#x7a0b;"/>
 <node CREATED="1506997090790" ID="ID_895460795" MODIFIED="1506997129291" TEXT="git pull origin &#x8fdc;&#x7a0b;&#x5206;&#x652f;&#x540d;&#xff1a;&#x5c06;&#x8fdc;&#x7a0b;&#x5185;&#x5bb9;&#x63a5;&#x5230;&#x672c;&#x5730;&#x5408;&#x5e76;"/>
 </node>
+<node CREATED="1506998721137" ID="ID_1443731714" MODIFIED="1506998721137" POSITION="left" TEXT=""/>
+<node CREATED="1506998723041" ID="ID_761675111" MODIFIED="1506998723041" POSITION="left" TEXT=""/>
+<node CREATED="1506998724017" ID="ID_1695715151" MODIFIED="1506998724017" POSITION="left" TEXT=""/>
+<node CREATED="1506998724850" ID="ID_1527989257" MODIFIED="1506998724850" POSITION="left" TEXT=""/>
+<node CREATED="1506998725856" ID="ID_451941656" MODIFIED="1506998725856" POSITION="left" TEXT=""/>
 </node>
 </map>
