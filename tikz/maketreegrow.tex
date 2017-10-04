@@ -1,0 +1,108 @@
+
+\section{子路径操作介绍（Introduction to the Child Operation）}
+	1、语法：
+	\begin{lstlisting}[basicstyle=\footnotesize\ttfamily,numbers=left,numberstyle=\tiny, numbersep=9pt, frame=single, language=tex]
+\path . . . child[hoptionsi]foreach<variables>in{<values>}{<child path>} . . . ;
+	\end{lstlisting}
+
+	“child”操作位于一个完整的node操作之后，或其它的child之后
+
+\section{子路径与子节点（Child Paths and Child Nodes）}
+	根节点的每一个子节点（路径）都被自动插入到指定的位置（插入的位置规则，在本章的第五节）
+
+\section{命名子节点（Naming Child Nodes）}
+
+
+\section{树或子节点路径选项说明（Specifying Options for Trees and Children）}
+	
+	下面是指定选项的规则集：
+	\begin{enumerate}
+		\item Options for the whole tree are given before the root node.
+		\item Options for the root node are given directly to the node operation of the root.
+		\item Options for all children can be given between the root node and the first child.
+		\item Options applying to a specific child path are given as options to the child operation.
+		\item Options applying to the node of a child, but not to the whole child path, are given as options to the
+node command inside the hchild pathi.
+	\end{enumerate}
+	
+	\begin{lstlisting}[basicstyle=\footnotesize\ttfamily,numbers=left,numberstyle=\tiny, numbersep=9pt, frame=single, language=tex]
+\begin{tikzpicture}
+\scoped
+[...] % Options apply to the whole tree
+\node[...] {root} % Options apply to the root node only
+[...] % Options apply to all children
+child[...] % Options apply to this child and all its children
+{
+node[...] {} % Options apply to the child node only
+...
+}
+child[...] % Options apply to this child and all its children
+;
+\end{tikzpicture}
+	\end{lstlisting}
+
+	影响子节点的样式选项有
+
+	\begin{tikzpicture}[align=center, grow'=right, level distance=1.5cm, sibling distance=2cm, 
+	edge from parent/.style={very thick, draw},
+	edge from parent path={(\tikzparentnode) to (\tikzchildnode.west)},
+	every child node/.style={draw,burntorange, top color=white, bottom color=orange!30, anchor=west, rectangle, rounded corners=3pt},
+	notestyle/.style={above right=1cm, callout absolute pointer={(#1.north east)}, ellipse callout,  top color=white, bottom color=lavander!90, draw=violet, font=\tiny},
+	]
+		\node[draw, rectangle, rounded corners=3pt, top color=white, bottom color=lavander!90, violet]{样式选项}
+			child[bend left=25]{node(a){every child}}
+			child{node(b){every child node}}
+			child{node(c){level=number}}
+			child{node(d){level number}};
+		\draw (a)node[notestyle={a}]{指定每一个\\子路径的样式};
+		\draw (b)node[notestyle={b}]{指定每一个\\子路径中每一个节点的样式};
+		\draw (c)node[notestyle={c}]{指定某一层\\或所有层的样式};
+		\draw (d)node[notestyle={d}]{指定某一指定层\\的样式};
+	\end{tikzpicture}
+
+
+
+\section{放置子节点(Placeing Child Nodes)}
+	\subsection{基本概念(Basic Idea)}
+	\subsection{默认增长函数(Default Growth Function)}
+		\begin{tikzpicture}[
+		align=center,
+		grow'=right,
+		edge from parent path={(\tikzparentnode) to(\tikzchildnode.west)},
+		level 1/.style={level distance=1.5cm, every node/.style={rectangle, draw, anchor=west}},
+		level 2/.style={
+			every node/.style={fill=none,anchor=south west},
+			level distance=1cm,
+			sibling distance=0.6cm
+		}]
+			\node[draw, cloud] (a) {样式\\选项}
+				child{node{level distance}}
+				child{node{sibling distance}}
+				child{node{grow'}}
+				child[sibling distance=3cm]{node{grow}
+					child{node{up}}
+					child{node{down}}
+					child{node{left}}
+					child{node{right}}
+					child{node{north}}
+					child{node{south}}
+					child{node{west}}
+					child{node{east}}
+					child{node{north east}}
+					child{node{north west}}
+					child{node{south east}}
+					child{node{south west}}
+					child{node{south west=-135}}
+				};
+		\end{tikzpicture}
+	\subsection{缺失子节点(Missing Children)}
+	\subsection{定制增长功能(Custom Growth Functions)}
+		\begin{tikzpicture}[
+		grow'=right, 
+		level distance=3cm, 
+		every node/.style={draw, rectangle, anchor=west}]
+			\node[cloud] (a) {选项}
+				child{node{growth parent}}
+				child{node{growth function}};
+		\end{tikzpicture}
+\section{来自父节点的边(Edges From The Parent Node)}

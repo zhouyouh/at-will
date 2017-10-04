@@ -1,0 +1,27 @@
+[ linewidth=1.1\textwidth,
+        numbers=left, %设置行号位置 
+        basicstyle=\footnotesize\ttfamily,
+        numberstyle=\tiny, %设置行号大小  
+        numbersep=9pt,
+        morekeywords={var, console},
+        %identifierstyle=\bf，
+        commentstyle=\it\color[cmyk]{1,0,1,0}, %设置注释颜色 
+        stringstyle=\it\color[RGB]{128,0,0},
+        %framexleftmargin=10mm,
+        frame=single, %设置边框格式  
+        backgroundcolor=\color{lightgray},
+        %escapeinside=``, %逃逸字符(1左面的键)，用于显示中文  
+        breaklines=true, %自动折行  
+        extendedchars=false, %解决代码跨页时，章节标题，页眉等汉字不显示的问题  
+        xleftmargin=2em,xrightmargin=2em, aboveskip=1em, %设置边距  
+        tabsize=4, %设置tab空格数  
+        showspaces=false, %不显示空格  
+        extendedchars=true,
+        showstringspaces=false,
+        showspaces=false,
+        showtabs=false,
+        tab=\rightarrowfill,
+        captionpos=b
+]
+       
+ 

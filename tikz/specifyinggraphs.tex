@@ -1,0 +1,17 @@
+在TikZ中有两种方法生成树：1、使用“graph”路径生成树；2、使用“child”路径生成树，两种方法各有各的优势。
+\section{grahp生成}
+	1、当要使用\verb"\graph"命令时，需要导入\verb"\usetikzlibrary{graphs}"否则会出现如下错误：
+	\begin{lstlisting}[basicstyle=\footnotesize\ttfamily,numbers=left,numberstyle=\tiny, numbersep=9pt, frame=single]
+! Package tikz Error: You need to say \usetikzlibrary{graphs} in order to use t
+he graph syntax.
+	\end{lstlisting}
+
+	2、当要使用\verb"\usegdlibrary"时，要先导入\verb"\usetikzlibrary{graphdrawing}"库
+
+	\begin{lstlisting}[basicstyle=\footnotesize\ttfamily,numbers=left,numberstyle=\tiny, numbersep=9pt, frame=single]
+! Undefined control sequence.
+l.4 \usegdlibrarysb
+               {routing, layered}
+	\end{lstlisting}
+	
+	3、我的理解是\verb"\usegdlibrary{trees}"是图\verb"\graph"绘制的一种布局
